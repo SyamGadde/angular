@@ -90,7 +90,11 @@ export function createFileSystemTsReadDirectoryFn(
         const directories: string[] = [];
 
         for (const child of children) {
-          if (fs.stat(fs.join(resolvedPath, child))?.isDirectory()) {
+          const jPath = fs2.join(resolvedPath, child);
+          if (!fs.exists(jPath)) {
+            continue;
+          }
+          if (fs.stat(jPath)?.isDirectory()) {
             directories.push(child);
           } else {
             files.push(child);
